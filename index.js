@@ -27,6 +27,11 @@ async function run() {
         const result = await carsCollection.findOne(filter);
         res.send(result);
       })
+      app.post('/car', async(req,res)=>{
+        const newCar = req.body;
+        const result = await carsCollection.insertOne(newCar);
+        res.send(result);
+      })
       app.put('/car/:id', async(req,res)=>{
         const id = req.params.id;
         const newQuantity = req.body.newQuantity;
@@ -43,7 +48,7 @@ async function run() {
          res.send(result)
 
       })
-      
+
       app.delete('/car/:id', async(req,res)=>{
         const id = req.params.id;
         const filter = {_id:ObjectId(id)};
