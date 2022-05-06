@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000;
 /* middle ware */
@@ -17,8 +17,39 @@ async function run() {
       await client.connect();
       const carsCollection = client.db("theAutoCars").collection("carsCollection");
       app.get('/cars', async(req,res)=>{
-        const result = await carsCollection.find({}).toArray();
+          /* link: http://localhost:5000/cars */
+         const result = await carsCollection.find({}).toArray();
+         res.send(result);
+      })
+      app.get('/car/:id', async(req,res)=>{
+        const id = req.params.id;
+        const filter = {_id:ObjectId(id)};
+        const result = await carsCollection.findOne(filter);
         res.send(result);
+      })
+      app.put('/car/:id', async(req,res)=>{
+        const id = req.params.id;
+        const newQuantity = req.body.newQuantity;
+        console.log(newQuantity);
+
+        const filter = {_id:ObjectId(id)};
+        const options = { upsert: true };
+        const updateDoc = {
+          $set: {
+            quantity:newQuantity
+          },
+        };
+        const result = await carsCollection.updateOne(filter, updateDoc, options);
+         res.send(result)
+
+      })
+      
+      app.delete('/car/:id', async(req,res)=>{
+        const id = req.params.id;
+        const filter = {_id:ObjectId(id)};
+        const result = await carsCollection.deleteOne(filter);
+        res.send(result);
+
       })
       
     } finally {
