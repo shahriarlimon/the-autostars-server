@@ -28,7 +28,7 @@ async function run() {
         const [email, accessToken] = tokenInfo.split(" ");
         const decoded = verifyToken(accessToken);
         if(email === decoded.email){
-          const uploadedCars = await uploadedCarsCollection.find({}).toArray();
+          const uploadedCars = await uploadedCarsCollection.find({email:email}).toArray();
           res.send(uploadedCars);
         }else{
             
