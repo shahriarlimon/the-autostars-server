@@ -1,8 +1,10 @@
 const express = require('express');
-const { getCars, createCar, updateCar, deleteCar } = require('../controller/product');
+const { getCars, createCar, updateCar, deleteCar, getSingleCar, getUploadedCarsbyUser } = require('../controller/product');
 const router = express.Router();
-router.post('/', createCar)
+router.post('/create', createCar)
 router.get('/', getCars)
+router.get("/uploaded-cars", getUploadedCarsbyUser)
+router.get("/:id", getSingleCar)
 router.put('/:id', updateCar)
 router.delete("/:id", deleteCar)
 

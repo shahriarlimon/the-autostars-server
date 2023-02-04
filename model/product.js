@@ -23,6 +23,9 @@ const carSchema = new mongoose.Schema({
     supplier: {
         type: String,
         required: [true, "supplier name is required"]
+    },
+    email: {
+        type: String
     }
 })
 
