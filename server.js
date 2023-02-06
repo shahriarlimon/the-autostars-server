@@ -7,7 +7,7 @@ const app = express()
 const port = process.env.PORT || 5000;
 const apiRoutes = require('./routes/apiRoutes')
 /* middle ware */
-app.use(cors())
+app.use(cors({ origin: true, credentials: true }))
 app.use(express.json())
 
 // Handling Uncaught Exception
